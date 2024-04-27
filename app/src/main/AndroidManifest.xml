@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.c196schedulingapp" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.C196SchedulingApp" >
+        <activity
+            android:name=".UI.AssessmentList"
+            android:exported="false" />
+        <activity
+            android:name=".UI.CourseList"
+            android:exported="false" />
+        <activity
+            android:name=".UI.TermList"
+            android:exported="false"
+            android:label="Term List" />
+        <activity
+            android:name=".UI.AssessmentDetails"
+            android:exported="false"
+            android:label="Assessment Info" />
+        <activity
+            android:name=".UI.CourseDetails"
+            android:exported="false"
+            android:label="Course Info" />
+
+        <receiver
+            android:name=".Helper.MyReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".UI.TermDetails"
+            android:exported="false"
+            android:label="Term Info" />
+        <activity
+            android:name=".UI.Home"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">C196 Scheduling App</string>
+    <string name="channel_name">channelname</string>
+    <string name="channel_description">channeldescription</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="deleteWithCourses">Are you sure you want to delete a term with courses?</string>
+    <string-array name="courseStatus">
+        <item>In Progress</item>
+        <item>Completed</item>
+        <item>Dropped</item>
+        <item>Plan to Take</item>
+    </string-array>
+
+
+</resources>
