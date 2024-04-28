@@ -22,7 +22,7 @@ import com.example.c196schedulingapp.Database.CourseRepo;
 import com.example.c196schedulingapp.Database.TermRepo;
 import com.example.c196schedulingapp.Entity.Course;
 import com.example.c196schedulingapp.Entity.Term;
-import com.example.c196schedulingapp.Helper.MyReceiver;
+import com.example.c196schedulingapp.Helper.Receiver;
 import com.example.c196schedulingapp.R;
 import com.example.c196schedulingapp.Helper.ParseDate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,7 +54,7 @@ public class TermDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_term);
+        setContentView(R.layout.activity_term_details);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -148,7 +148,7 @@ public class TermDetails extends AppCompatActivity {
             case R.id.notifyStart:
                 String dateFromString = editSDate.getText().toString();
                 long trigger = ParseDate.dateParse(dateFromString).getTime();
-                Intent intentTStart = new Intent(TermDetails.this, MyReceiver.class);
+                Intent intentTStart = new Intent(TermDetails.this, Receiver.class);
                 intentTStart.putExtra("key", "Alert! Term: "+ name+ " starts: " + ParseDate.dateParse(editSDate.getText().toString()));
                 PendingIntent senderTStart = PendingIntent.getBroadcast(TermDetails.this, ++numAlert, intentTStart, 0);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -157,7 +157,7 @@ public class TermDetails extends AppCompatActivity {
             case R.id.notifyEnd:
                 String dateFromString2 = editEDate.getText().toString();
                 long trigger2 = ParseDate.dateParse(dateFromString2).getTime();
-                Intent intentTEnd = new Intent(TermDetails.this, MyReceiver.class);
+                Intent intentTEnd = new Intent(TermDetails.this, Receiver.class);
                 intentTEnd.putExtra("key", "Alert! Term: "+ name+ " Ends: " + ParseDate.dateParse(editEDate.getText().toString()));
                 PendingIntent senderTEnd = PendingIntent.getBroadcast(TermDetails.this, ++numAlert, intentTEnd, 0);
                 AlarmManager alarmManager2 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

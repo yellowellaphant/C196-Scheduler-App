@@ -66,7 +66,6 @@ public class Assessment {
         this.endDate = endDate;
     }
 
-
     public String getAssessmentType() {
         return assessmentType;
     }
@@ -74,4 +73,5 @@ public class Assessment {
     public void setAssessmentType(String assessmentType) {
         this.assessmentType = assessmentType;
     }
+
 }

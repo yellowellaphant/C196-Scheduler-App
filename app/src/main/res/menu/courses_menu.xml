@@ -8,8 +8,6 @@
         android:id="@+id/notifyStart"/>
     <item android:title="Set End Date Reminder"
         android:id="@+id/notifyEnd"/>
-    <item android:title="Show Optional Note"
-        android:id="@+id/showNotes"/>
     <item android:title="Refresh"
         android:id="@+id/refresh"/>
 

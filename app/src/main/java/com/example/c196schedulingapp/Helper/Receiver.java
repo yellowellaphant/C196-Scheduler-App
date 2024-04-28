@@ -9,11 +9,10 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.example.c196schedulingapp.R;
 
-public class MyReceiver extends BroadcastReceiver {
+public class Receiver extends BroadcastReceiver {
     String channel_id="Scheduling App";
     public static int notificationID;
 

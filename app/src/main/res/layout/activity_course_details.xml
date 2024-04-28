@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".UI.CourseDetails">
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
@@ -18,17 +17,17 @@
         android:minHeight="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_add"
+        app:srcCompat="@drawable/baseline_add_24"
         android:onClick="addCAssessment"/>
 
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -39,7 +38,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingRight="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="Course Name" />
 
@@ -63,41 +63,45 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Course Start Date"
-                    android:focusable="false"/>
+                    android:focusable="false"
+                    android:text="Start Date" />
 
                 <EditText
                     android:id="@+id/courseStart"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:focusable="false"/>
+                    android:focusable="false" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Course End Date"/>
+                    android:text="End Date" />
+
                 <EditText
                     android:id="@+id/courseEnd"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:focusable="false"/>
+                    android:focusable="false" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Course Status" />
+                    android:text="Status" />
+
                 <Spinner
                     android:id="@+id/spinner"
                     android:layout_width="200dp"
@@ -105,14 +109,13 @@
             </LinearLayout>
 
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="Instructor Name" />
 
@@ -121,13 +124,14 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="Instructor Phone" />
 
@@ -136,15 +140,16 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="phone"/>
+                    android:inputType="phone" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="instructor Email" />
 
@@ -154,21 +159,22 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textEmailAddress"
-               />
+                    android:inputType="textEmailAddress" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <EditText
                     android:id="@+id/optionalNotes"
                     android:layout_width="368dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:gravity="top|left"
-                    android:hint="Optional Course Notes"
+                    android:hint="Notes (optional)"
                     android:inputType="textMultiLine"
                     android:lines="5"
                     android:minLines="3"
@@ -178,25 +184,40 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:backgroundTint="#009688"
                     android:onClick="saveCourse"
-                    android:text="Save" />
+                    android:text="Save"
+                    app:cornerRadius="150dp" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:backgroundTint="#009688"
                     android:onClick="onCancel"
-                    android:text="Cancel" />
+                    android:text="Cancel"
+                    app:cornerRadius="150dp" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerAssessmentView"
                 android:layout_width="match_parent"
-                android:layout_height="432dp" />
+                android:layout_height="432dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp" />
         </LinearLayout>
     </ScrollView>
 

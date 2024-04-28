@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.example.c196schedulingapp.Database.AssessmentRepo;
 import com.example.c196schedulingapp.Entity.Assessment;
-import com.example.c196schedulingapp.Helper.MyReceiver;
+import com.example.c196schedulingapp.Helper.Receiver;
 import com.example.c196schedulingapp.R;
 import com.example.c196schedulingapp.Helper.ParseDate;
 
@@ -34,25 +34,28 @@ public class AssessmentDetails extends AppCompatActivity {
     String assessmentName;
     String startDate;
     String endDate;
+    int courseID;
+    int assessmentID;
+
     EditText editName;
     EditText editStart;
     EditText editEDate;
+
     RadioButton radioButtonOA;
     RadioButton radioButtonPA;
-    int courseID;
-    int assessmentID;
-    public static int numAlert;
+    RadioGroup radioGroup;
     String radioIDSelection;
+
+    public static int numAlert;
     AssessmentRepo assessmentRepo;
     DatePickerDialog.OnDateSetListener date1;
     DatePickerDialog.OnDateSetListener date2;
-    RadioGroup radioGroup;
     final Calendar myCalendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_assessment);
+        setContentView(R.layout.activity_assessment_details);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -135,7 +138,7 @@ public class AssessmentDetails extends AppCompatActivity {
         });
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+    /*public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
@@ -143,7 +146,7 @@ public class AssessmentDetails extends AppCompatActivity {
             case R.id.notifyStart:
                 String dateFromString = editStart.getText().toString();
                 long trigger = ParseDate.dateParse(dateFromString).getTime();
-                Intent intentAStart = new Intent(AssessmentDetails.this, MyReceiver.class);
+                Intent intentAStart = new Intent(AssessmentDetails.this, Receiver.class);
                 intentAStart.putExtra("key", "Alert! Assessment: "+ assessmentName+ " Starts: " + ParseDate.dateParse(editStart.getText().toString()));
                 PendingIntent senderAStart = PendingIntent.getBroadcast(AssessmentDetails.this, ++numAlert, intentAStart, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -152,7 +155,7 @@ public class AssessmentDetails extends AppCompatActivity {
             case R.id.notifyEnd:
                 String dateFromString2 = editEDate.getText().toString();
                 long trigger2 = ParseDate.dateParse(dateFromString2).getTime();
-                Intent intentAEnd = new Intent(AssessmentDetails.this, MyReceiver.class);
+                Intent intentAEnd = new Intent(AssessmentDetails.this, Receiver.class);
                 intentAEnd.putExtra("key", "Alert! Assessment: "+ assessmentName+ " Ends: " + ParseDate.dateParse(editEDate.getText().toString()));
                 PendingIntent senderAEnd = PendingIntent.getBroadcast(AssessmentDetails.this, ++numAlert, intentAEnd, PendingIntent.FLAG_IMMUTABLE);
                 AlarmManager alarmManager2 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -170,7 +173,47 @@ public class AssessmentDetails extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }*/
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == android.R.id.home) {
+            this.finish();
+            return true;
+        } else if (itemId == R.id.notifyStart) {
+            String dateFromString = editStart.getText().toString();
+            long trigger = ParseDate.dateParse(dateFromString).getTime();
+            Intent intentAStart = new Intent(AssessmentDetails.this, Receiver.class);
+            intentAStart.putExtra("key", "Alert! Assessment: " + assessmentName + " Starts: " + ParseDate.dateParse(editStart.getText().toString()));
+            PendingIntent senderAStart = PendingIntent.getBroadcast(AssessmentDetails.this, ++numAlert, intentAStart, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, senderAStart);
+            return true;
+        } else if (itemId == R.id.notifyEnd) {
+            String dateFromString2 = editEDate.getText().toString();
+            long trigger2 = ParseDate.dateParse(dateFromString2).getTime();
+            Intent intentAEnd = new Intent(AssessmentDetails.this, Receiver.class);
+            intentAEnd.putExtra("key", "Alert! Assessment: " + assessmentName + " Ends: " + ParseDate.dateParse(editEDate.getText().toString()));
+            PendingIntent senderAEnd = PendingIntent.getBroadcast(AssessmentDetails.this, ++numAlert, intentAEnd, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager2 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager2.set(AlarmManager.RTC_WAKEUP, trigger2, senderAEnd);
+            return true;
+        } else if (itemId == R.id.delete) {
+            for (Assessment assessment : assessmentRepo.getAllAssessments()) {
+                if (assessment.getAssessmentID() == assessmentID) {
+                    assessmentRepo.delete(assessment);
+                    Toast.makeText(this, "Assessment Deleted", Toast.LENGTH_SHORT).show();
+                    Intent intent3 = new Intent(getApplicationContext(), TermList.class);
+                    startActivity(intent3);
+                }
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
+
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.assessment_menu,menu);
