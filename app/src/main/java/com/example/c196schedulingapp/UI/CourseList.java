@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.c196schedulingapp.Adapters.CourseViewAdapter;
@@ -17,6 +18,7 @@ import com.example.c196schedulingapp.Entity.Course;
 import com.example.c196schedulingapp.R;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CourseList extends AppCompatActivity {
 
@@ -24,6 +26,9 @@ public class CourseList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         CourseRepo courseRepo = new CourseRepo(getApplication());
 
@@ -36,6 +41,18 @@ public class CourseList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         courseAdapter.setCourse(allCourses);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void courseAddButton(View view) {

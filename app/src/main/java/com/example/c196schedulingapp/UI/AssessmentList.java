@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.c196schedulingapp.Adapters.AssessmentViewAdapter;
@@ -14,6 +15,7 @@ import com.example.c196schedulingapp.Entity.Assessment;
 import com.example.c196schedulingapp.R;
 
 import java.util.List;
+import java.util.Objects;
 
 public class AssessmentList extends AppCompatActivity {
 
@@ -21,6 +23,9 @@ public class AssessmentList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assessment_list);
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         AssessmentRepo assessmentRepo = new AssessmentRepo(getApplication());
 
@@ -33,6 +38,18 @@ public class AssessmentList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         assessmentAdapter.setAssessments(allAssessments);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void assessmentAddButton(View view) {

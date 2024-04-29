@@ -73,5 +73,4 @@ public class Assessment {
     public void setAssessmentType(String assessmentType) {
         this.assessmentType = assessmentType;
     }
-
 }

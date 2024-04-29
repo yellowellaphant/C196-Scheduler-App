@@ -12,6 +12,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -372,6 +373,7 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
                 // For simplicity, I'll use 0 as the courseID here, assuming you have a proper method to generate IDs
                 courseID = 0;
                 int uniqueID = generateUniqueID();
+                Log.d("unique ID: ", String.valueOf(uniqueID));
                 // Create a new Course object with the provided data
                 Course newCourse = new Course(
                         uniqueID,

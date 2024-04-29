@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="5dp"
+                android:paddingTop="15dp"
                 android:paddingBottom="5dp">
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:id="@+id/radioGroup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <RadioButton
                         android:id="@+id/radioButton1"
@@ -119,14 +119,15 @@
                         android:text="Performance Assessment"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
+                    <RadioButton
+                        android:id="@+id/radioButton2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="checkButton"
+                        android:text="Objective Assessment" />
+
                 </RadioGroup>
 
-                <RadioButton
-                    android:id="@+id/radioButton2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="checkButton"
-                    android:text="Objective Assessment" />
             </LinearLayout>
 
             <LinearLayout

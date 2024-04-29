@@ -1,5 +1,7 @@
 package com.example.c196schedulingapp.UI;
 
+import static com.example.c196schedulingapp.Helper.GenerateID.generateUniqueID;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
@@ -8,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,6 +62,8 @@ public class AssessmentDetails extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        Log.d("onCreate", "setting fields");
+
         assessmentName = getIntent().getStringExtra("assessmentName");
         editName = findViewById(R.id.assessmentName);
         editName.setText(assessmentName);
@@ -72,17 +77,13 @@ public class AssessmentDetails extends AppCompatActivity {
         editEDate.setText(endDate);
 
         assessmentID = getIntent().getIntExtra("assessmentID",-1);
-
         assessmentRepo = new AssessmentRepo(getApplication());
         courseID = getIntent().getIntExtra("courseID", -1);
+
         radioGroup = findViewById(R.id.radioGroup);
-       // RadioGroup rb1 = (RadioGroup)findViewById(R.id.radioGroup);
-
         radioIDSelection= getIntent().getStringExtra("assessmentType");
-
-
-        radioButtonOA =(RadioButton)findViewById(R.id.radioButton2);
-        radioButtonPA =(RadioButton)findViewById(R.id.radioButton1);
+        radioButtonOA = findViewById(R.id.radioButton2);
+        radioButtonPA = findViewById(R.id.radioButton1);
 
         if (radioIDSelection!=null) {
             if (radioIDSelection.equalsIgnoreCase("Performance Assessment")) {
@@ -138,43 +139,6 @@ public class AssessmentDetails extends AppCompatActivity {
         });
     }
 
-    /*public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-            case R.id.notifyStart:
-                String dateFromString = editStart.getText().toString();
-                long trigger = ParseDate.dateParse(dateFromString).getTime();
-                Intent intentAStart = new Intent(AssessmentDetails.this, Receiver.class);
-                intentAStart.putExtra("key", "Alert! Assessment: "+ assessmentName+ " Starts: " + ParseDate.dateParse(editStart.getText().toString()));
-                PendingIntent senderAStart = PendingIntent.getBroadcast(AssessmentDetails.this, ++numAlert, intentAStart, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, senderAStart);
-                return true;
-            case R.id.notifyEnd:
-                String dateFromString2 = editEDate.getText().toString();
-                long trigger2 = ParseDate.dateParse(dateFromString2).getTime();
-                Intent intentAEnd = new Intent(AssessmentDetails.this, Receiver.class);
-                intentAEnd.putExtra("key", "Alert! Assessment: "+ assessmentName+ " Ends: " + ParseDate.dateParse(editEDate.getText().toString()));
-                PendingIntent senderAEnd = PendingIntent.getBroadcast(AssessmentDetails.this, ++numAlert, intentAEnd, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager2 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager2.set(AlarmManager.RTC_WAKEUP, trigger2, senderAEnd);
-                return true;
-            case R.id.delete:
-                for (Assessment assessment : assessmentRepo.getAllAssessments()) {
-                    if (assessment.getAssessmentID() == assessmentID) {
-                        assessmentRepo.delete(assessment);
-                        Toast.makeText(this, "Assessment Deleted", Toast.LENGTH_SHORT).show();
-                        Intent intent3 = new Intent(getApplicationContext(), TermList.class);
-                        startActivity(intent3);
-                    }
-                }
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
@@ -228,28 +192,44 @@ public class AssessmentDetails extends AppCompatActivity {
 
        if (editEDate.getText().toString().trim().isEmpty() || editStart.getText().toString().trim().isEmpty()|| editName.getText().toString().trim().isEmpty()) {
             Context context = getApplicationContext();
-            CharSequence text = "Please enter all required text fields before saving!";
+            CharSequence text = "All required fields must be completed";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+           Log.d("saveAssessment", "empty fields");
         }
        else {
            String screenName = editName.getText().toString();
            Date screenDate = ParseDate.dateParse(editStart.getText().toString());
            Date screenDate2 = ParseDate.dateParse(editEDate.getText().toString());
 
+           Log.d("saveAssessment", "all fields completed");
+
+           int newAssessmentID = generateUniqueAssessmentID();
 
            if (assessmentName == null) {
                assessmentID = assessmentRepo.getAllAssessments().size();
-               Assessment newAssessment = new Assessment(++assessmentID, courseID,screenName,screenDate, screenDate2, radioIDSelection);
+               /*Assessment newAssessment = new Assessment(++assessmentID, courseID,screenName,screenDate, screenDate2, radioIDSelection);
+               assessmentRepo.insert(newAssessment);*/
+               Assessment newAssessment = new Assessment(newAssessmentID, courseID,screenName,screenDate, screenDate2, radioIDSelection);
                assessmentRepo.insert(newAssessment);
+
+               Log.d("saveAssessment", "save new assessment");
 
            } else {
                Assessment oldAssessment = new Assessment(getIntent().getIntExtra("assessmentID", -1),courseID, screenName,screenDate, screenDate2,radioIDSelection);
                assessmentRepo.update(oldAssessment);
+
+               Log.d("saveAssessment", "modify assessment save");
            }
        }
         this.finish();
+        Log.d("saveAssessment", "method finished");
+    }
+
+    private int generateUniqueAssessmentID() {
+
+        return assessmentRepo.getAllAssessments().size() + 1;
     }
 
     private void updateLabel() {

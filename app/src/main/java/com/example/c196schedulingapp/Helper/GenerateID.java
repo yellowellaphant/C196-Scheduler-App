@@ -13,6 +13,7 @@ public class GenerateID {
         return uniqueID;
     }
 
+
     public static void main(String[] args) {
         // Generate a unique ID
         int id = generateUniqueID();
