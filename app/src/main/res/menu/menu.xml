@@ -10,6 +10,4 @@
         android:id="@+id/notifyStart"/>
     <item android:title="Set End Date Reminder"
         android:id="@+id/notifyEnd"/>
-    <item android:title="Refresh"
-        android:id="@+id/refresh"/>
 </menu>

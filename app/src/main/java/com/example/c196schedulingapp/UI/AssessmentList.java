@@ -13,6 +13,7 @@ import com.example.c196schedulingapp.Adapters.AssessmentViewAdapter;
 import com.example.c196schedulingapp.Database.AssessmentRepo;
 import com.example.c196schedulingapp.Entity.Assessment;
 import com.example.c196schedulingapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +32,9 @@ public class AssessmentList extends AppCompatActivity {
 
         List<Assessment> allAssessments = assessmentRepo.getAllAssessments();
         RecyclerView recyclerView = findViewById(R.id.assessmentRecyclerView);
+
+        FloatingActionButton addButton = findViewById(R.id.assessmentAddButton);
+        addButton.setVisibility(View.GONE);
 
         final AssessmentViewAdapter assessmentAdapter = new AssessmentViewAdapter(this);
 

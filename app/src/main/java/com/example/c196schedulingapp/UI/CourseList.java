@@ -16,6 +16,7 @@ import com.example.c196schedulingapp.Database.TermRepo;
 import com.example.c196schedulingapp.Entity.Assessment;
 import com.example.c196schedulingapp.Entity.Course;
 import com.example.c196schedulingapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +35,9 @@ public class CourseList extends AppCompatActivity {
 
         List<Course> allCourses = courseRepo.getAllCourses();
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
+
+        FloatingActionButton addButton = findViewById(R.id.courseAddButton);
+        addButton.setVisibility(View.GONE  );
 
         final CourseViewAdapter courseAdapter = new CourseViewAdapter(this);
 
