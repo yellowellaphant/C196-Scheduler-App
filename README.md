@@ -1,2 +1,2 @@
-# c196SchedulingApp
-WGU C196 App
+# C196 Course Scheduling App
+Created for WGU class C196
