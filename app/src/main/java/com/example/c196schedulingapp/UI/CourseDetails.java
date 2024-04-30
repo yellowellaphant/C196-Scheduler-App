@@ -24,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.c196schedulingapp.Adapters.AssessmentViewAdapter;
+import com.example.c196schedulingapp.Adapters.CourseViewAdapter;
 import com.example.c196schedulingapp.Database.AssessmentRepo;
 import com.example.c196schedulingapp.Database.CourseRepo;
 import com.example.c196schedulingapp.Entity.Assessment;
@@ -137,8 +138,6 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
                 allAssessment.add(assessment);
         }
 
-        //editOptionalText.setVisibility(View.GONE);
-
         final AssessmentViewAdapter assessmentAdapter = new AssessmentViewAdapter(this);
         recyclerView.setAdapter(assessmentAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -167,7 +166,7 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
         editSDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+
                 new DatePickerDialog(CourseDetails.this, date1, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -176,7 +175,7 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
         editEDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+
                 new DatePickerDialog(CourseDetails.this, date2, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -189,72 +188,6 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
         return true;
     }
 
-    /*public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-            case R.id.delete:
-                for (Course course : courseRepo.getAllCourses()){
-                    if (course.getCourseID()==courseID){
-                        courseRepo.delete(course);
-                        Toast.makeText(this,"Course Deleted",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), TermList.class);
-                        startActivity(intent);
-                    }
-                }
-                return true;
-            case R.id.share:
-                // TODO fix to send correct data
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT,"Course Name: "+ name+"\n"+ "Start Date: "+ startDate +"\n"+"End Date: "+ endDate+ "\n"+ "Status: "+status +"\n"
-                        + "\n"+"Course Instructor: "+ instructorName+ "\n"+"Email: "+ instructorEmail+ "\n"+"Phone: "+ instructorPhone+ "\n"+ " Courses Notes: "+optionalNotes);
-                sendIntent.putExtra(Intent.EXTRA_TITLE, "Share "+name +" Course Info");
-                sendIntent.setType("text/plain");
-                Intent shareIntent = Intent.createChooser(sendIntent,null);
-                startActivity(shareIntent);
-                return true;
-            case R.id.notifyStart:
-                String dateFromString = editSDate.getText().toString();
-                long trigger = ParseDate.dateParse(dateFromString).getTime();
-                Intent intentCStart  = new Intent(CourseDetails.this,Receiver.class);
-                intentCStart.putExtra("key","Alert! Course: "+ name+ " starts: " + ParseDate.dateParse(editSDate.getText().toString()));
-                PendingIntent sender= PendingIntent.getBroadcast(CourseDetails.this, ++numAlert, intentCStart, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
-                return true;
-            case R.id.notifyEnd:
-                String dateFromString2 = editEDate.getText().toString();
-                long trigger2 = ParseDate.dateParse(dateFromString2).getTime();
-                Intent intentCEnd  = new Intent(CourseDetails.this,Receiver.class);
-                intentCEnd.putExtra("key","Alert! Course: "+ name+ " Ends: " + ParseDate.dateParse(editEDate.getText().toString()));
-                PendingIntent senderCEndDate= PendingIntent.getBroadcast(CourseDetails.this, ++numAlert, intentCEnd, PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager2=(AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager2.set(AlarmManager.RTC_WAKEUP, trigger2, senderCEndDate);
-                return true;
-            case R.id.showNotes:
-                editOptionalText.setText(optionalNotes);
-                editOptionalText.setVisibility(View.VISIBLE);
-                return true;
-            case R.id.refresh:
-                RecyclerView recyclerView = findViewById(R.id.recyclerAssessmentView);
-                List<Assessment> allAssessment = new ArrayList<>();
-                for (Assessment assessment : assessmentRepo.getAllAssessments()) {
-                    if (assessment.getCourseID() == courseID)
-                        allAssessment.add(assessment);
-                }
-                final AssessmentViewAdapter assessmentAdapter = new AssessmentViewAdapter(this);
-                recyclerView.setAdapter(assessmentAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                assessmentAdapter.setAssessments(allAssessment);
-
-
-
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
@@ -266,7 +199,7 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
             for (Course course : courseRepo.getAllCourses()) {
                 if (course.getCourseID() == courseID) {
                     courseRepo.delete(course);
-                    Toast.makeText(this, "Course Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Course Successfully Deleted", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), TermList.class);
                     startActivity(intent);
                 }
@@ -274,7 +207,7 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
             return true;
         }
         else if (itemId == R.id.share) {
-            // TODO fix to send correct data
+
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
 
@@ -311,11 +244,6 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
             alarmManager2.set(AlarmManager.RTC_WAKEUP, trigger2, senderCEndDate);
             return true;
         }
-        /*else if (itemId == R.id.showNotes) {
-            editOptionalText.setText(optionalNotes);
-            editOptionalText.setVisibility(View.VISIBLE);
-            return true;
-        }*/
         else if (itemId == R.id.refresh) {
             RecyclerView recyclerView = findViewById(R.id.recyclerAssessmentView);
             List<Assessment> allAssessment = new ArrayList<>();
@@ -344,7 +272,7 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void saveCourse(View view) {
-        // Check if any required fields are empty
+
         if (editEDate.getText().toString().trim().isEmpty() ||
                 editSDate.getText().toString().trim().isEmpty() ||
                 editName.getText().toString().trim().isEmpty() ||
@@ -352,29 +280,23 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
                 editInstructorEmail.getText().toString().trim().isEmpty() ||
                 editInstructorPhone.getText().toString().trim().isEmpty()) {
 
-            // Show a toast message indicating that all required fields must be completed
             Toast.makeText(this, "All required fields must be completed", Toast.LENGTH_SHORT).show();
         } else {
-            // Retrieve data from EditText fields
             String screenName = editName.getText().toString();
             Date screenDate = ParseDate.dateParse(editSDate.getText().toString());
             Date screenDate2 = ParseDate.dateParse(editEDate.getText().toString());
+
             String screenInstructor = editInstructor.getText().toString();
             String screenInstructorEmail = editInstructorEmail.getText().toString();
             String screenInstructorPhone = editInstructorPhone.getText().toString();
             String optionalNotes = editOptionalText.getText().toString();
 
-            // Check if the courseID is -1 (indicating a new course)
             if (courseID == -1) {
-                // Generate a new courseID
-                // Note: Ensure that you properly handle the generation of unique IDs
-                // Currently, you're using (assessmentRepo.getAllAssessments().size() - 1) which might not be correct
-                // Instead, you can use a different method to generate unique IDs, such as using a counter or UUID
-                // For simplicity, I'll use 0 as the courseID here, assuming you have a proper method to generate IDs
+
                 courseID = 0;
                 int uniqueID = generateUniqueID();
                 Log.d("unique ID: ", String.valueOf(uniqueID));
-                // Create a new Course object with the provided data
+
                 Course newCourse = new Course(
                         uniqueID,
                         screenName,
@@ -388,10 +310,8 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
                         optionalNotes
                 );
 
-                // Insert the new course into the database
                 courseRepo.insert(newCourse);
             } else {
-                // Create a new Course object with the provided data
                 Course updatedCourse = new Course(
                         courseID,
                         screenName,
@@ -405,59 +325,23 @@ public class CourseDetails extends AppCompatActivity implements AdapterView.OnIt
                         optionalNotes
                 );
 
-                // Update the existing course in the database
                 courseRepo.update(updatedCourse);
             }
-            // Finish the current activity
+
+            RecyclerView recyclerView = findViewById(R.id.recyclerCourseView);
+            List<Course> allCourse = new ArrayList<>();
+            for (Course course : courseRepo.getAllCourses()) {
+                if (course.getTermID() == termID)
+                    allCourse.add(course);
+            }
+            final CourseViewAdapter courseAdapter = new CourseViewAdapter(this);
+            recyclerView.setAdapter(courseAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            courseAdapter.setCourse(allCourse);
+
             finish();
         }
     }
-
-    /*public void saveCourse(View view) {
-        if (editEDate.getText().toString().trim().isEmpty() || editSDate.getText().toString().trim().isEmpty()|| editName.getText().toString().trim().isEmpty()|| editInstructor.getText().toString().trim().isEmpty()
-                || editInstructorEmail.getText().toString().trim().isEmpty()|| editInstructorPhone.getText().toString().trim().isEmpty()) {
-            Context context = getApplicationContext();
-            CharSequence text = "All required fields must be completed";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
-        else {
-            String screenName = editName.getText().toString();
-            Date screenDate = ParseDate.dateParse(editSDate.getText().toString());
-            Date screenDate2 = ParseDate.dateParse(editEDate.getText().toString());
-
-            String screenInstructor = editInstructor.getText().toString();
-            String screenInstructorEmail = editInstructorEmail.getText().toString();
-            String screenInstructorPhone = editInstructorPhone.getText().toString();
-            String optionNotes= editOptionalText.getText().toString();
-
-            if (courseID == -1) {
-                courseID = (assessmentRepo.getAllAssessments().size()-1);
-               // courseID = 1;
-                System.out.println(courseRepo.getAllCourses().size());
-                Course newCourse = new Course(
-                        ++courseID,
-                        screenName,
-                        termID,
-                        status,
-                        screenInstructor,
-                        screenInstructorPhone,
-                        screenInstructorEmail,
-                        screenDate,
-                        screenDate2,optionNotes);
-                courseRepo.insert(newCourse);
-
-            } else {
-                System.out.println(termID);
-                Course oldCourse = new Course(courseID, screenName, termID, status, screenInstructor, screenInstructorPhone, screenInstructorEmail, screenDate, screenDate2,optionNotes);
-                courseRepo.update(oldCourse);
-            }
-
-        }
-        System.out.println("action completed");
-        this.finish();
-    }*/
 
 
     public void onCancel(View view) {

@@ -3,6 +3,8 @@ package com.example.c196schedulingapp.UI;
 import static com.example.c196schedulingapp.Helper.GenerateID.generateUniqueID;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -20,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.c196schedulingapp.Adapters.AssessmentViewAdapter;
 import com.example.c196schedulingapp.Database.AssessmentRepo;
 import com.example.c196schedulingapp.Entity.Assessment;
 import com.example.c196schedulingapp.Helper.Receiver;
@@ -27,8 +30,10 @@ import com.example.c196schedulingapp.R;
 import com.example.c196schedulingapp.Helper.ParseDate;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -167,7 +172,7 @@ public class AssessmentDetails extends AppCompatActivity {
             for (Assessment assessment : assessmentRepo.getAllAssessments()) {
                 if (assessment.getAssessmentID() == assessmentID) {
                     assessmentRepo.delete(assessment);
-                    Toast.makeText(this, "Assessment Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Assessment Successfully Deleted", Toast.LENGTH_SHORT).show();
                     Intent intent3 = new Intent(getApplicationContext(), TermList.class);
                     startActivity(intent3);
                 }
@@ -222,6 +227,16 @@ public class AssessmentDetails extends AppCompatActivity {
 
                Log.d("saveAssessment", "modify assessment save");
            }
+           RecyclerView recyclerView = findViewById(R.id.recyclerAssessmentView);
+           List<Assessment> allAssessment = new ArrayList<>();
+           for (Assessment assessment : assessmentRepo.getAllAssessments()) {
+               if (assessment.getCourseID() == courseID)
+                   allAssessment.add(assessment);
+           }
+           final AssessmentViewAdapter assessmentAdapter = new AssessmentViewAdapter(this);
+           recyclerView.setAdapter(assessmentAdapter);
+           recyclerView.setLayoutManager(new LinearLayoutManager(this));
+           assessmentAdapter.setAssessments(allAssessment);
        }
         this.finish();
         Log.d("saveAssessment", "method finished");

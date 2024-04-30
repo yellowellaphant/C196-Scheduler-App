@@ -131,72 +131,72 @@ public class TermDetails extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-            case R.id.share:
-                // TODO fix to send correct data
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is Text to send" + editName.getText());
-                sendIntent.putExtra(Intent.EXTRA_TITLE, "This is a sent Title");
-                sendIntent.setType("text/plain");
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
-                startActivity(shareIntent);
-                return true;
-            case R.id.notifyStart:
-                String dateFromString = editSDate.getText().toString();
-                long trigger = ParseDate.dateParse(dateFromString).getTime();
-                Intent intentTStart = new Intent(TermDetails.this, Receiver.class);
-                intentTStart.putExtra("key", "Alert! Term: "+ name+ " starts: " + ParseDate.dateParse(editSDate.getText().toString()));
-                PendingIntent senderTStart = PendingIntent.getBroadcast(TermDetails.this, ++numAlert, intentTStart, 0);
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, senderTStart);
-                return true;
-            case R.id.notifyEnd:
-                String dateFromString2 = editEDate.getText().toString();
-                long trigger2 = ParseDate.dateParse(dateFromString2).getTime();
-                Intent intentTEnd = new Intent(TermDetails.this, Receiver.class);
-                intentTEnd.putExtra("key", "Alert! Term: "+ name+ " Ends: " + ParseDate.dateParse(editEDate.getText().toString()));
-                PendingIntent senderTEnd = PendingIntent.getBroadcast(TermDetails.this, ++numAlert, intentTEnd, 0);
-                AlarmManager alarmManager2 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                alarmManager2.set(AlarmManager.RTC_WAKEUP, trigger2, senderTEnd);
-                return true;
-            case R.id.refresh:
-                RecyclerView recyclerView = findViewById(R.id.recyclerCourseView);
-                List<Course> allCourse = new ArrayList<>();
-                for (Course course : courseRepo.getAllCourses()) {
-                    if (course.getTermID() == termId)
-                        allCourse.add(course);
+        int itemId = item.getItemId();
+
+        if (itemId == android.R.id.home) {
+            this.finish();
+            return true;
+        } else if (itemId == R.id.share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "This is Text to send" + editName.getText());
+            sendIntent.putExtra(Intent.EXTRA_TITLE, "This is a sent Title");
+            sendIntent.setType("text/plain");
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+            return true;
+        } else if (itemId == R.id.notifyStart) {
+            String dateFromString = editSDate.getText().toString();
+            long trigger = ParseDate.dateParse(dateFromString).getTime();
+            Intent intentTStart = new Intent(TermDetails.this, Receiver.class);
+            intentTStart.putExtra("key", "Alert! Term: "+ name+ " starts: " + ParseDate.dateParse(editSDate.getText().toString()));
+            PendingIntent senderTStart = PendingIntent.getBroadcast(TermDetails.this, ++numAlert, intentTStart, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, senderTStart);
+            return true;
+        } else if (itemId == R.id.notifyEnd) {
+            String dateFromString2 = editEDate.getText().toString();
+            long trigger2 = ParseDate.dateParse(dateFromString2).getTime();
+            Intent intentTEnd = new Intent(TermDetails.this, Receiver.class);
+            intentTEnd.putExtra("key", "Alert! Term: "+ name+ " Ends: " + ParseDate.dateParse(editEDate.getText().toString()));
+            PendingIntent senderTEnd = PendingIntent.getBroadcast(TermDetails.this, ++numAlert, intentTEnd, PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager2 = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager2.set(AlarmManager.RTC_WAKEUP, trigger2, senderTEnd);
+            return true;
+        } else if (itemId == R.id.refresh) {
+            RecyclerView recyclerView = findViewById(R.id.recyclerCourseView);
+            List<Course> allCourse = new ArrayList<>();
+            for (Course course : courseRepo.getAllCourses()) {
+                if (course.getTermID() == termId)
+                    allCourse.add(course);
+            }
+            final CourseViewAdapter courseAdapter = new CourseViewAdapter(this);
+            recyclerView.setAdapter(courseAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            courseAdapter.setCourse(allCourse);
+            return true;
+        } else if (itemId == R.id.delete) {
+            boolean termWithoutCourses= true;
+            for (Course course : courseRepo.getAllCourses()) {
+                if (course.getTermID() == termId) {
+                    termWithoutCourses = false;
                 }
-                final CourseViewAdapter courseAdapter = new CourseViewAdapter(this);
-                recyclerView.setAdapter(courseAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
-                courseAdapter.setCourse(allCourse);
-                return true;
-            case R.id.delete:
-                boolean termWithoutCourses= true;
-                for (Course course : courseRepo.getAllCourses()) {
-                    if (course.getTermID() == termId) {
-                        termWithoutCourses = false;
+            }
+            if (termWithoutCourses) {
+                for (Term term : repository.getAllTerms()) {
+                    if (term.getTermID() == termId) {
+                        repository.delete(term);
+                        Toast.makeText(this, "Term Successfully Deleted", Toast.LENGTH_SHORT).show();
+                        Intent intent3 = new Intent(getApplicationContext(), TermList.class);
+                        startActivity(intent3);
                     }
                 }
-                if (termWithoutCourses) {
-                    for (Term term : repository.getAllTerms()) {
-                        if (term.getTermID() == termId) {
-                            repository.delete(term);
-                            Toast.makeText(this, "Term Deleted", Toast.LENGTH_SHORT).show();
-                            Intent intent3 = new Intent(getApplicationContext(), TermList.class);
-                            startActivity(intent3);
-                        }
-                    }
-                }
-                else {
-                    Toast.makeText(this, "Term Has Course, Delete Courses first!", Toast.LENGTH_SHORT).show();
-                }
-                return true;
+            } else {
+                Toast.makeText(this, "Associated courses must be removed before deletion", Toast.LENGTH_SHORT).show();
+            }
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -204,7 +204,7 @@ public class TermDetails extends AppCompatActivity {
 
         if (editEDate.getText().toString().trim().isEmpty() || editSDate.getText().toString().trim().isEmpty()|| editName.getText().toString().trim().isEmpty()) {
             Context context = getApplicationContext();
-            CharSequence text = "Please enter all required text fields before saving!";
+            CharSequence text = "All required fields must be completed";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();

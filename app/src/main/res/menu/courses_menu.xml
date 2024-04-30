@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="Delete"
         android:id="@+id/delete"/>
-    <item android:title="Share"
+    <item android:title="Share Course Notes"
         android:id="@+id/share"/>
     <item android:title="Set Start Date Reminder"
         android:id="@+id/notifyStart"/>
