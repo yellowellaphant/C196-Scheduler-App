@@ -29,7 +29,7 @@ This Android mobile application helps students track their academic progress by 
 - **Deployment**: The application is packaged as a signed APK for easy installation.
 
 ## Challenges & Reflections:
-- **Development Process**: Android Studio's emulator requires a _significant_ amount of processing power which led to many crashes during the development process
+- **Development Process**: The Android Studio emulator demanded significant processing power, which caused frequent crashes and delays during development.
 
 ## Future Enhancements:
-- **Devices**: This app was designed with phones in mind, extra enhancements could be made to the UI for tablet compatibility 
+- **Devices**: Although this app was designed primarily for phones, future enhancements could include optimizing the UI for tablet compatibility to provide a better user experience on larger screens.
