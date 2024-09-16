@@ -1,10 +1,10 @@
 # C196 Course Scheduling App
 Created for Mobile App Development (WGU class C196)
 
-<a href="Screen_Menu_Storyboard.png">View app storyboard</a>
+<a href="screen_menu_storyboard.png">View app storyboard</a>
 
 <p>
-  <img src="Home_Screen.png" width="300"/>
+  <img src="home_screen.png" width="300"/>
 </p>
 
 ## Description:
