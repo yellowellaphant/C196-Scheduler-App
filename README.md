@@ -1,11 +1,14 @@
 # C196 Course Scheduling App
 Created for Mobile App Development (WGU class C196)
 
-<a href="screen_menu_storyboard.png">View app storyboard</a>
+<a href="screen_menu_storyboard.png">View Full App Storyboard</a>
 
 <p>
-  <img src="home_screen.png" width="300"/>
+  <img src="home_screen.png" height="500"/> &nbsp;&nbsp;&nbsp;
+  <img src="courses_screen.png" height="500"/> &nbsp;&nbsp;&nbsp;
+  <img src="course_details_screen.png" height="500"/>
 </p>
+
 
 ## Description:
 This Android mobile application helps students track their academic progress by organizing terms, courses, and assessments. Users can add, edit, and delete entries for terms, courses, and assessments while receiving alerts for important deadlines. The app is designed for Android 8.0 and above and includes various features to ensure efficient progress tracking and management.
@@ -26,7 +29,7 @@ This Android mobile application helps students track their academic progress by 
 - **Deployment**: The application is packaged as a signed APK for easy installation.
 
 ## Challenges & Reflections:
-- [Insert reflections on development, challenges, and improvements here.]
+- **Development Process**: Android Studio's emulator requires a _significant_ amount of processing power which led to many crashes during the development process
 
 ## Future Enhancements:
-- [Insert future ideas, such as tablet support or additional features.]
+- **Devices**: This app was designed with phones in mind, extra enhancements could be made to the UI for tablet compatibility 
